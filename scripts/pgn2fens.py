@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # Konwertuje plik z partią szachową w notacji PGN do listy FEN-ów (po każdym ruchu)
 # Wymagania: python-chess
+# Jak wywołać: python [plik PGN - input] [lista FEN-ów - output]
 
-import os
 import sys
 import chess
 import chess.pgn
