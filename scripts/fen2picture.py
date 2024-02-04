@@ -1,6 +1,8 @@
 import numpy as np
+import sys
 
-def fen_to_picture(fen):
+
+with open("data_after_parse.txt","r") as input_f:
     WHITE='PNBRQK'
     BLACK='pnbrqk'
     EMPTY='12345678'
@@ -20,10 +22,10 @@ def fen_to_picture(fen):
         'Qk': 8,
         'Qq': 9,
         'kq': 10,
-        'Kqk': 11,
+        'KQk': 11,
         'KQq': 12,
         'Kkq': 13,
-        'Qkk': 14,
+        'Qkq': 14,
         'KQkq': 15
     }
     EN_PASSANT={
@@ -45,20 +47,27 @@ def fen_to_picture(fen):
         'g6': 15,
         'h6': 16,
     }
-    pos, turn, castling, en_passant=fen.split(' ')
-    Board = np.zeros(67)
-    counter=0
-    for line in pos.split('/'):
-        for i in line:
-            if i in WHITE:
-                Board[counter]=WHITE.index(i)+1
-                counter+=1
-            elif i in BLACK:
-                Board[counter]=BLACK.index(i)+7
-                counter+=1
-            else:
-                counter+=int(i)
-    Board[64]=TURN[turn]
-    Board[65]=CASTLING[castling]
-    Board[66]=EN_PASSANT[en_passant]
-    return Board
+    line = input_f.read().split('\n')
+    X_train = np.zeros(len(line), dtype=object)
+    Y_train = np.zeros(len(line))
+    for idx, fen in enumerate(line):
+        fen = fen.replace('\t', ' ')
+        print(fen.split(" "))
+        pos, turn, castling, en_passant, evaluation = fen.split(" ")
+        Board = np.zeros(67, dtype=int)
+        counter=0
+        for line in pos.split('/'):
+            for i in line:
+                if i in WHITE:
+                    Board[counter]=WHITE.index(i)+1
+                    counter+=1
+                elif i in BLACK:
+                    Board[counter]=BLACK.index(i)+7
+                    counter+=1
+                else:
+                    counter+=int(i)
+        Board[64]=TURN[turn]
+        Board[65]=CASTLING[castling]
+        Board[66]=EN_PASSANT[en_passant]
+        X_train[idx] = Board
+        Y_train[idx] = evaluation
