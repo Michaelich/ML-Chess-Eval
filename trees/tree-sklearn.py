@@ -84,7 +84,17 @@ with open("data_after_parse.txt","r") as input_f:
         X_train[idx] = Board
         Y_train[idx] = evaluation
 
-BoostTrees = sklearn.ensemble.HistGradientBoostingRegressor(max_iter=50000)
+idx=[i for i in range(len(X_train))]
+np.random.shuffle(idx)
 
-BoostTrees.fit(list(X_train), Y_train)
-print(f"Accuracy: {BoostTrees.score(list(X_train),Y_train)}")
+X_tr,Y_tr=X_train[idx[0::2]],Y_train[idx[0::2]]
+X_test,Y_test=X_train[idx[1::2]],Y_train[idx[1::2]]
+
+BoostTrees = sklearn.ensemble.HistGradientBoostingRegressor(max_iter=10000,max_leaf_nodes=512,l2_regularization=1)
+
+BoostTrees.fit(list(X_tr), Y_tr)
+
+Ys=BoostTrees.predict(list(X_test))
+
+print(f"Score: {BoostTrees.score(list(X_train),Y_train)}")
+print(f"MSE: {sklearn.metrics.mean_squared_error(Ys,Y_test)}")
