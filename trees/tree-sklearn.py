@@ -90,7 +90,7 @@ np.random.shuffle(idx)
 X_tr,Y_tr=X_train[idx[0::2]],Y_train[idx[0::2]]
 X_test,Y_test=X_train[idx[1::2]],Y_train[idx[1::2]]
 
-BoostTrees = sklearn.ensemble.HistGradientBoostingRegressor(max_iter=10000,max_leaf_nodes=512,l2_regularization=1)
+BoostTrees = sklearn.ensemble.HistGradientBoostingRegressor(max_iter=10000,max_leaf_nodes=1337,l2_regularization=0)
 
 BoostTrees.fit(list(X_tr), Y_tr)
 

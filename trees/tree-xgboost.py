@@ -90,7 +90,7 @@ with open(sys.argv[1],"r") as input_f:
             Board[772+EN_PASSANT[en_passant]]=1
 
         X_train[idx] = Board
-        Y_train[idx] = evaluation
+        Y_train[idx] = float(evaluation)
 
 idxs=[]
 # X_train=X_train.reshape(-1,789)
@@ -111,7 +111,7 @@ with open('numbers.txt') as f:
 np.random.shuffle(idxs)
 idx1,idx2=[],[]
 
-ratio=0.7
+ratio=0.8
 
 n=0
 for i,j in idxs:
@@ -123,8 +123,8 @@ for i,j in idxs:
 
 print(X_train.shape)
 
-PCA=sklearn.decomposition.PCA(n_components=150)
-# X_train=PCA.fit_transform(X_train)
+PCA=sklearn.decomposition.PCA(n_components=125)
+X_train=PCA.fit_transform(X_train)
 
 print(X_train.shape)
 
@@ -133,7 +133,7 @@ X_test,Y_test=X_train[idx2],Y_train[idx2]
 
 print(len(X_tr),len(X_test))
 
-BoostTrees = xgb.XGBRegressor(tree_method='hist',learning_rate=0.1,device='cuda',n_estimators=150000,num_parallel_tree=1,max_depth=12)
+BoostTrees = xgb.XGBRegressor(tree_method='hist',learning_rate=0.1,device='cuda',n_estimators=1500,num_parallel_tree=1,max_depth=500,reg_alpha=10,reg_lambda=0)
 
 BoostTrees.fit(X_tr, Y_tr)
 

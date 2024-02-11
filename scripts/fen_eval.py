@@ -11,4 +11,4 @@ with open(sys.argv[1],"r") as input_f:
     x_value = line
     d = {'FEN': x_value, 'Eval': y_value}
     dataset = pd.DataFrame(data=d)
-    dataset.to_csv('data_after_parse.txt', sep='\t', index=False)
+    dataset.to_csv(sys.argv[2], sep='\t', index=False)

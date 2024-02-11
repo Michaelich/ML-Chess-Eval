@@ -88,7 +88,7 @@ with open(sys.argv[1],"r") as input_f:
             Board[772+EN_PASSANT[en_passant]]=1
 
         X_train[idx] = Board
-        Y_train[idx] = evaluation
+        Y_train[idx] = float(evaluation)
 
 idxs=[]
 # X_train=X_train.reshape(-1,789)
@@ -123,7 +123,7 @@ print(X_train.shape)
 
 # Tu w(y)łączamy PCA
 PCA=sklearn.decomposition.PCA(n_components=250)
-# X_train=PCA.fit_transform(X_train)
+X_train=PCA.fit_transform(X_train)
 
 print(X_train.shape)
 
@@ -133,10 +133,10 @@ X_test,Y_test=X_train[idx2],Y_train[idx2]
 print(len(X_tr),len(X_test))
 
 # Testowane wartości
-l1_vals=[0,0.01,0.02,0.05,0.1,0.2,0.5,1,2,5,10]
-l2_vals=[0,0.01,0.02,0.05,0.1,0.2,0.5,1,2,5,10]
+l1_vals=[0,0.1,0.2,0.5,1,2,5,10]
+l2_vals=[0,0.1,0.2,0.5,1,2,5,10]
 depth_vals=range(3,13)
-ests=range(5000,45000,5000)
+ests=[5000,10000,20000]
 
 min_mse=1
 p=[]
